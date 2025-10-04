@@ -55,6 +55,23 @@ public abstract class BitPacking {
     }
 
     /**
+     * Calculates the number of bits needed to represent the largest integer of the array.
+     *
+     * @param array The input array with only non-negative integers
+     * @return The number of bits required to represent the largest value
+     * @throws IllegalArgumentException if the array is null or contains negative numbers
+     */
+    protected int calculateBitSize(int[] array) {
+        if (array == null) throw new IllegalArgumentException("Input array can't be null.");
+        int max = 1; // At least 1 bit, needed if all values are "0"
+        for (int value : array) {
+            if (value < 0) throw new IllegalArgumentException("Negative values are not supported in BitPacking.");
+            max = Math.max(max, value);
+        }
+        return 32 - Integer.numberOfLeadingZeros(max);
+    }
+g
+    /**
      * Compresses the array using the BitPacking compression method.
      *
      * @param array Array to be compressed
