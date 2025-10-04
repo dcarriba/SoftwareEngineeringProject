@@ -93,4 +93,3 @@ public abstract class BitPacking {
      */
     public abstract int get(int i);
 }
-g
