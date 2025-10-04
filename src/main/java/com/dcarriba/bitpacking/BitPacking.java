@@ -70,7 +70,7 @@ public abstract class BitPacking {
         }
         return 32 - Integer.numberOfLeadingZeros(max);
     }
-g
+
     /**
      * Compresses the array using the BitPacking compression method.
      *
