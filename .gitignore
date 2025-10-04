@@ -31,7 +31,6 @@ replay_pid*
 .gradle/
 
 # IntelliJ IDEA files
-/.idea/
 /*.iml
 
 # Eclipse files
