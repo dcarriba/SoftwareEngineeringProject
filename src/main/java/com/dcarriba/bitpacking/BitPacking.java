@@ -7,9 +7,9 @@ package com.dcarriba.bitpacking;
 public abstract class BitPacking {
     /** Array containing the compressed data */
     private int[] compressedArray;
-    /** Original number of elements in the array */
+    /** Original number of integers in the array before compression */
     private int originalLength;
-    /** New number of bits for each element */
+    /** New number of bits each number will be coded on */
     private int bitSize;
 
     /**
@@ -27,28 +27,28 @@ public abstract class BitPacking {
     }
 
     /**
-     * @return Original number of elements in the array
+     * @return Original number of integers in the array before compression
      */
     public int getOriginalLength() {
         return originalLength;
     }
 
     /**
-     * @param originalLength Original number of elements in the array
+     * @param originalLength Original number of integers in the array before compression
      */
     protected void setOriginalLength(int originalLength) {
         this.originalLength = originalLength;
     }
 
     /**
-     * @return New number of bits for each element
+     * @return New number of bits each number will be coded on
      */
     public int getBitSize() {
         return bitSize;
     }
 
     /**
-     * @param bitSize New number of bits for each element
+     * @param bitSize New number of bits each number will be coded on
      */
     protected void setBitSize(int bitSize) {
         this.bitSize = bitSize;
@@ -65,7 +65,7 @@ public abstract class BitPacking {
         if (array == null) throw new IllegalArgumentException("Input array can't be null.");
         int max = 1; // At least 1 bit, needed if all values are "0"
         for (int value : array) {
-            if (value < 0) throw new IllegalArgumentException("Negative values are not supported in BitPacking.");
+            if (value < 0) throw new IllegalArgumentException("Values can't be negative.");
             max = Math.max(max, value);
         }
         return 32 - Integer.numberOfLeadingZeros(max);
@@ -81,7 +81,7 @@ public abstract class BitPacking {
     /**
      * Decompresses the compressed array into the array given as parameter.
      *
-     * @param array Array to get the results
+     * @param array Array receiving the decompressed array
      */
     public abstract void decompress(int[] array);
 
@@ -93,3 +93,4 @@ public abstract class BitPacking {
      */
     public abstract int get(int i);
 }
+g

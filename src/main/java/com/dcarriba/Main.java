@@ -1,7 +1,7 @@
 package com.dcarriba;
 
 /**
- * Main class of the project
+ * {@link Main} class of the project
  */
 public class Main {
 
