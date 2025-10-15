@@ -1,0 +1,50 @@
+\documentclass[titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[colorlinks=false]{hyperref}
+\usepackage[a4paper, margin=3cm]{geometry}
+
+
+\title{Software Engineering Project}
+\author{Daniel \sc Carriba Nosrati}
+\date{2025}
+
+\renewcommand{\contentsname}{Sommaire}
+\hyphenpenalty=10000  % Empêche la coupure des mots en fin de ligne
+\exhyphenpenalty=10000  % Empêche aussi la coupure des mots avec des apostrophes
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{\fill} 
+    {\Huge \bfseries Software Engineering Project \par}
+    \vspace{1cm}
+    {\Large Data compressing for speed up transmission \par}
+    \vfill
+    {\large Daniel \sc Carriba Nosrati \par}
+    \vspace{0.5cm}
+    {\large 2025 \par}
+    \vspace*{\fill} 
+\end{titlepage}
+
+\tableofcontents
+
+\clearpage
+
+\section{Introduction}
+
+Ce projet, réalisé pour l'UE Software Engineering du Semestre 1 du Master Informatique de l'Université Côte d'Azur, est un projet de compression de données pour accélérer la transmission. 
+\par La transmission de tableaux d'entiers est un problème majeur de l'internet. Ce projet répond à ce problème en implémentant une méthode de compression de tableaux d'entiers positifs, basés sur le nombre de bits utilisés (appelée Bit Packing). Plusieurs versions de cette méthode ont été implémentés. L'utilisateur peut ainsi compresser un tableau d'entiers positifs, ainsi que le décompresser. L'accès direct aux éléments n'est pas perdu lors de la compression, l'utilisateur peut toujours avoir un accès immédiat à un i-ème élément du tableau.
+\par Les différentes versions, de la méthode de compression mentionné ci-dessus, implémentés par ce projet seront présentés dans les sections suivantes.
+
+\clearpage
+
+\section{Méthode de compression Bit Packing}
+
+\subsection{Version avec compression sur deux entiers consécutifs}
+
+\subsection{Version avec compression sans utiliser deux entiers consécutifs}
+
+
+\end{document}
