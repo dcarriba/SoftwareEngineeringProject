@@ -1,11 +1,11 @@
 package com.dcarriba.bitpacking;
 
+import com.dcarriba.config.Config;
 import com.dcarriba.utilities.Utilities;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BitPackingWithoutOverlapTest {
-    private static final boolean DEBUG_PRINT = false;
 
     @Test
     void testCompressionDecompressionSmallValueArray() {
@@ -17,7 +17,7 @@ public class BitPackingWithoutOverlapTest {
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
-        if (DEBUG_PRINT) {
+        if (Config.UNIT_TEST_PRINT_DEBUG) {
             System.out.println("Test case: small value array:");
             Utilities.printOriginalAndCompressed(inputArray, bitPacking);
         }
@@ -35,7 +35,7 @@ public class BitPackingWithoutOverlapTest {
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
-        if (DEBUG_PRINT) {
+        if (Config.UNIT_TEST_PRINT_DEBUG) {
             System.out.println("LTest case: large value array:");
             Utilities.printOriginalAndCompressed(inputArray, bitPacking);
         }
@@ -53,7 +53,7 @@ public class BitPackingWithoutOverlapTest {
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
-        if (DEBUG_PRINT) {
+        if (Config.UNIT_TEST_PRINT_DEBUG) {
             System.out.println("Test case: single value array:");
             Utilities.printOriginalAndCompressed(inputArray, bitPacking);
         }
@@ -71,7 +71,7 @@ public class BitPackingWithoutOverlapTest {
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
-        if (DEBUG_PRINT) {
+        if (Config.UNIT_TEST_PRINT_DEBUG) {
             System.out.println("Test case: array with 0:");
             Utilities.printOriginalAndCompressed(inputArray, bitPacking);
         }
