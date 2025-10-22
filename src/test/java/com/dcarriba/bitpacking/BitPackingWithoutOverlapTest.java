@@ -1,9 +1,11 @@
 package com.dcarriba.bitpacking;
 
+import com.dcarriba.utilities.Utilities;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BitPackingWithoutOverlapTest {
+    private static final boolean DEBUG_PRINT = false;
 
     @Test
     void testCompressionDecompressionSmallValueArray() {
@@ -15,8 +17,10 @@ public class BitPackingWithoutOverlapTest {
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
-        System.out.println("Test case: small value array:");
-        printOriginalAndCompressed(inputArray, bitPacking);
+        if (DEBUG_PRINT) {
+            System.out.println("Test case: small value array:");
+            Utilities.printOriginalAndCompressed(inputArray, bitPacking);
+        }
 
         assertArrayEquals(inputArray, decompressedArray);
     }
@@ -31,8 +35,10 @@ public class BitPackingWithoutOverlapTest {
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
-        System.out.println("LTest case: large value array:");
-        printOriginalAndCompressed(inputArray, bitPacking);
+        if (DEBUG_PRINT) {
+            System.out.println("LTest case: large value array:");
+            Utilities.printOriginalAndCompressed(inputArray, bitPacking);
+        }
 
         assertArrayEquals(inputArray, decompressedArray);
     }
@@ -47,8 +53,10 @@ public class BitPackingWithoutOverlapTest {
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
-        System.out.println("Test case: single value array:");
-        printOriginalAndCompressed(inputArray, bitPacking);
+        if (DEBUG_PRINT) {
+            System.out.println("Test case: single value array:");
+            Utilities.printOriginalAndCompressed(inputArray, bitPacking);
+        }
 
         assertArrayEquals(inputArray, decompressedArray);
     }
@@ -63,8 +71,10 @@ public class BitPackingWithoutOverlapTest {
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
-        System.out.println("Test case: array with 0:");
-        printOriginalAndCompressed(inputArray, bitPacking);
+        if (DEBUG_PRINT) {
+            System.out.println("Test case: array with 0:");
+            Utilities.printOriginalAndCompressed(inputArray, bitPacking);
+        }
 
         assertArrayEquals(inputArray, decompressedArray);
     }
@@ -111,32 +121,6 @@ public class BitPackingWithoutOverlapTest {
         // Test for each element
         for (int i = 0; i < inputArray.length; i++) {
             assertEquals(inputArray[i], bitPacking.get(i), "Failed to get the element at index " + i);
-        }
-    }
-
-    /**
-     * Method to print original and compressed arrays in binary.
-     *
-     * @param originalArray the original array to print
-     * @param bitPacking contains the compressed array to print
-     */
-    private void printOriginalAndCompressed(int[] originalArray, BitPacking bitPacking) {
-        System.out.println("Original array in binary:");
-        printArrayInBinary(originalArray);
-        System.out.println("Compressed array in binary:");
-        printArrayInBinary(bitPacking.getCompressedArray());
-        System.out.println();
-    }
-
-    /**
-     * Method to print the binary representation of each integer of an array.
-     *
-     * @param array array to print
-     */
-    private void printArrayInBinary(int[] array) {
-        for (int i = 0; i < array.length; i++) {
-            String binaryString = String.format("%32s", Integer.toBinaryString(array[i])).replace(' ', '0');
-            System.out.println("Integer " + i + ": " + binaryString);
         }
     }
 }
