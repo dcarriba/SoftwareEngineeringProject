@@ -93,6 +93,14 @@ public class BitPackingWithoutOverlapTest {
     }
 
     @Test
+    void testDecompressionWithoutCompression(){
+        BitPacking bitPacking = new BitPackingWithoutOverlap();
+
+        int[] array = new int[0];
+        assertThrows(IllegalStateException.class, () -> bitPacking.decompress(array));
+    }
+
+    @Test
     void testGetMethod() {
         BitPacking bitPacking = new BitPackingWithoutOverlap();
 

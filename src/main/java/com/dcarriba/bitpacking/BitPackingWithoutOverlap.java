@@ -47,6 +47,11 @@ public class BitPackingWithoutOverlap extends BitPacking {
             throw new IllegalArgumentException("Output array must have length " + getOriginalLength());
         }
 
+        if (super.getCompressedArray() == null) {
+            throw new IllegalStateException("Compressed data is not available. Ensure that compression has been" +
+                                            "performed before decompression.");
+        }
+
         int bitSize = getBitSize();
         int valuesPerInt = 32 / bitSize;
         int[] compressed = getCompressedArray();
