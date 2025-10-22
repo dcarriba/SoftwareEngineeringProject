@@ -5,6 +5,9 @@ import com.dcarriba.utilities.Utilities;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * {@link BitPackingWithoutOverlapTest} contains unit tests for {@link BitPackingWithoutOverlap}
+ */
 public class BitPackingWithoutOverlapTest {
 
     @Test
@@ -114,7 +117,6 @@ public class BitPackingWithoutOverlapTest {
     void testGetMethod() {
         BitPacking bitPacking = new BitPackingWithoutOverlap();
 
-        // Test case: Retrieve specific elements after compression
         int[] inputArray = {100, 200, 300, 400, 500};
         bitPacking.compress(inputArray);
 
