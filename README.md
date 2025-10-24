@@ -8,9 +8,24 @@ Daniel Carriba Nosrati
 
 ## Requirements
 
-Java is required. Java version 21 is recommended.
+- Java 21 (recommended) <br>
+The project should also be compatible with Java 17 or later, but it has been tested with Java 21.
 
-## Instructions to build and run
+- Gradle Wrapper is included, no separate Gradle installation is required.
+
+## Clone the repository
+
+```bash
+git clone https://github.com/dcarriba/SoftwareEngineeringProject.git
+```
+
+## Build and Run Instructions
+
+Navigate into the project directory:
+
+```bash
+cd SoftwareEngineeringProject
+```
 
 ### Build the project
 
