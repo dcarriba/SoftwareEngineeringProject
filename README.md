@@ -44,3 +44,7 @@ cd SoftwareEngineeringProject
 ```bash
 ./gradlew test
 ```
+
+## Project Report
+
+More information (in French) about the project can be found in `report/Rapport.pdf`.
