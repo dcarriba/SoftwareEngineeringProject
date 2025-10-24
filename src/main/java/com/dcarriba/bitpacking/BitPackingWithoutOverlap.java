@@ -13,7 +13,7 @@ public class BitPackingWithoutOverlap extends BitPacking {
             throw new IllegalArgumentException("The array can't be null or empty.");
         }
 
-        // Number of bits needed to represent the largest integer of the array
+        // Number of bits needed to represent the largest value of the array
         int bitSize = calculateBitSize(array);
 
         setBitSize(bitSize);
@@ -21,6 +21,7 @@ public class BitPackingWithoutOverlap extends BitPacking {
 
         // Number of values that can fit in a single integer
         int valuesPerInt = 32 / bitSize;
+
         // Number of integers needed for all compressed values
         int compressedArrayLength = (array.length + valuesPerInt - 1) / valuesPerInt;
 
@@ -28,8 +29,10 @@ public class BitPackingWithoutOverlap extends BitPacking {
 
         for (int i = 0; i < array.length; i++) {
             int value = array[i];
+
             // Determines which integer of compressedArray the current value should be in
             int intIndex = i / valuesPerInt;
+
             // Calculates the bit offset (i.e. the position) for the current value inside the integer
             int offset = (i % valuesPerInt) * bitSize;
 

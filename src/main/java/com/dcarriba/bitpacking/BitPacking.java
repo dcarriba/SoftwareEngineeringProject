@@ -9,7 +9,7 @@ public abstract class BitPacking {
     private int[] compressedArray;
     /** Original number of integers in the array before compression */
     private int originalLength;
-    /** New number of bits each number will be coded on */
+    /** New number of bits each value will be coded on */
     private int bitSize;
 
     /**
@@ -41,14 +41,14 @@ public abstract class BitPacking {
     }
 
     /**
-     * @return New number of bits each number will be coded on
+     * @return New number of bits each value will be coded on
      */
     public int getBitSize() {
         return bitSize;
     }
 
     /**
-     * @param bitSize New number of bits each number will be coded on
+     * @param bitSize New number of bits each value will be coded on
      */
     protected void setBitSize(int bitSize) {
         this.bitSize = bitSize;

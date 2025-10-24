@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link BitPackingWithoutOverlapTest} contains unit tests for {@link BitPackingWithoutOverlap}
+ * {@link BitPackingWithoutOverlapTest} provides unit tests for {@link BitPackingWithoutOverlap}
  */
 public class BitPackingWithoutOverlapTest {
 
@@ -32,14 +32,14 @@ public class BitPackingWithoutOverlapTest {
     void testCompressionDecompressionLargeValueArray() {
         BitPacking bitPacking = new BitPackingWithoutOverlap();
 
-        int[] inputArray = {10, 20, 30, 40, 50, 60, 70, 80, 90};
+        int[] inputArray = {100, 200, 300, 400, 500, 600, 700, 800, 900};
         int[] decompressedArray = new int[inputArray.length];
 
         bitPacking.compress(inputArray);
         bitPacking.decompress(decompressedArray);
 
         if (Config.UNIT_TEST_PRINT_DEBUG) {
-            System.out.println("LTest case: large value array:");
+            System.out.println("Test case: large value array:");
             Utilities.printOriginalAndCompressed(inputArray, bitPacking);
         }
 
