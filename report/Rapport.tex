@@ -2,7 +2,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[colorlinks=false]{hyperref}
-\usepackage[a4paper, margin=3cm]{geometry}
+%\usepackage[a4paper, margin=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{listings} % to display code snippets
+\usepackage{xcolor}  % Optional, for coloring code
 
 
 \title{Software Engineering Project}
@@ -17,12 +20,16 @@
 
 \begin{titlepage}
     \centering
-    \vspace*{\fill} 
-    {\Huge \bfseries Software Engineering Project \par}
-    \vspace{1cm}
-    {\Large Data compressing for speed up transmission \par}
+    \vspace*{\fill}
+    {\includegraphics[width=0.5\textwidth]{img/unice-logo.png} \par}
     \vfill
-    {\large Daniel \sc Carriba Nosrati \par}
+    {\Huge \bfseries Software Engineering\\Project \par}
+    \vspace{1cm}
+    {\Large Compression de données pour accélérer la transmission \par}
+    \vfill
+    {\Large Daniel \sc Carriba Nosrati \par}
+    \vspace{0.5cm}
+    {\large UE Software Engineering\\Semestre 1 Master 1 Informatique\\Université Côte d'Azur \par}
     \vspace{0.5cm}
     {\large 2025 \par}
     \vspace*{\fill} 
@@ -34,17 +41,63 @@
 
 \section{Introduction}
 
-Ce projet, réalisé pour l'UE Software Engineering du Semestre 1 du Master Informatique de l'Université Côte d'Azur, est un projet de compression de données pour accélérer la transmission. 
-\par La transmission de tableaux d'entiers est un problème majeur de l'internet. Ce projet répond à ce problème en implémentant une méthode de compression de tableaux d'entiers positifs, basés sur le nombre de bits utilisés (appelée Bit Packing). Plusieurs versions de cette méthode ont été implémentés. L'utilisateur peut ainsi compresser un tableau d'entiers positifs, ainsi que le décompresser. L'accès direct aux éléments n'est pas perdu lors de la compression, l'utilisateur peut toujours avoir un accès immédiat à un i-ème élément du tableau.
-\par Les différentes versions, de la méthode de compression mentionné ci-dessus, implémentés par ce projet seront présentés dans les sections suivantes.
+Ce projet, réalisé pour l'UE "Software Engineering" du Semestre 1 du Master 1 Informatique de l'Université Côte d'Azur, est un projet sur le thème de compression de données pour accélérer la transmission.
+\par La transmission de tableaux d'entiers est un problème majeur de l'internet. Ce projet propose une réponse à ce problème en implémentant une méthode de compression de tableaux d'entiers positifs, basés sur le nombre de bits utilisés. Cette méthode de compression est appelée "Bit Packing". Plusieurs versions de cette méthode ont été implémentés par ce projet. L'utilisateur peut ainsi compresser un tableau d'entiers positifs, ainsi que le décompresser. L'accès direct aux éléments n'est pas perdu lors de la compression, l'utilisateur peut toujours avoir un accès immédiat à un i-ème élément du tableau.
+\par Ce projet à été réalisé en Java. Les différentes versions la méthode de compression "Bit Packing" ainsi que leurs implémentations et fonctionnements seront présentés dans ce rapport. Ce projet propose également des benchmarks, sous forme de mesures de performances et de temps, pour chaque versions de la méthode de compression. L'implémentation ainsi que la pertinence de ces benchmarks seront également expliquer dans la suite de ce rapport.
 
 \clearpage
 
-\section{Méthode de compression Bit Packing}
+\section{Bit Packing}
 
-\subsection{Version avec compression sur deux entiers consécutifs}
+La méthode de compression "Bit Packing" à été implémenté en trois versions différentes dans ce projet. Chaque version sera présenté en détails dans sa section dédiée.
+\par Pour l'implémentation j'ai choisi donc de créer une classe par versions. Ces classes héritent de la classe abstraite \textsl{BitPacking}, qui elle contient les champs et méthodes et communs à toutes les versions différentes de "Bit Packing". Chaque classe qui hérite donc de \textsl{BitPacking} implémente sa propre méthode pour compresser, décompresser ainsi que pour accéder au i-ème élément du tableau compressé.
+\par Voici un schéma UML montrant une vue d'ensemble de la structure de ces classes :
+\\
+\\
+(TODO: mettre schéma UML)
 
-\subsection{Version avec compression sans utiliser deux entiers consécutifs}
+\subsection{Bit Packing with overlap}
 
+Cette version de "Bit Packing" est une version nommé "with overlap". Cela signifie que une valeur, du tableau à compresser, peut être compressé sur deux entiers consécutifs au sein du tableau compressé.
+
+\subsubsection{Implémentation}
+
+Cette version de "Bit Packing" a été implémenté par la classe \textsl{BitPackingWithOverlap} qui hérite de la classe abstraite \textsl{BitPacking}.
+\par \textsl{BitPackingWithOverlap} implémente les méthodes abstraites de \textsl{BitPacking}, soit :
+\begin{lstlisting}[language=Java]
+@Override
+public void compress(int[] array) {
+	...
+}
+@Override
+public void decompress(int[] array) {
+	...
+}
+@Override
+public int get(int i) {
+	...
+}
+\end{lstlisting}
+\par Une classe \textsl{BitPackingWithOverlapTest} a également été implémenté contenant des tests unitaires pour tester le bon fonctionnement des méthodes montrés ci-dessus.
+
+\subsubsection{Fonctionnement}
+
+\subsection{Bit Packing without overlap}
+
+Cette version de "Bit Packing" est une version nommé "without overlap". Cela signifie que une valeur, du tableau à compresser, sera toujours compressé sur un seul, et non deux, entier du tableau compressé.
+
+\subsubsection{Implémentation}
+
+\subsubsection{Fonctionnement}
+
+\subsection{Bit Packing with overflow areas}
+
+\subsubsection{Implémentation}
+
+\subsubsection{Fonctionnement}
+
+\clearpage
+
+\section{Benchmarks}
 
 \end{document}
