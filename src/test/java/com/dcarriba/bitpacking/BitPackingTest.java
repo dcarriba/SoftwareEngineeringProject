@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link BitPackingTest} provides unit tests for the already implemented methods of
- * the abstract {@link BitPacking} class
+ * {@link BitPackingTest} provides unit tests for the calculateBitSize method of the abstract {@link BitPacking} class
  */
 public class BitPackingTest {
 
@@ -16,9 +15,6 @@ public class BitPackingTest {
 
         @Override
         public void compress(int[] array) {}
-
-        @Override
-        public void decompress(int[] array) {}
 
         @Override
         public int get(int i) {

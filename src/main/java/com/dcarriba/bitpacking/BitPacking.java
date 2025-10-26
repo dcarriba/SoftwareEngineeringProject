@@ -83,7 +83,21 @@ public abstract class BitPacking {
      *
      * @param array Array receiving the decompressed array
      */
-    public abstract void decompress(int[] array);
+    public void decompress(int[] array) {
+        if (array == null || array.length != getOriginalLength()) {
+            throw new IllegalArgumentException("Output array must have length " + getOriginalLength());
+        }
+
+        if (getCompressedArray() == null) {
+            throw new IllegalStateException("Compressed data is not available. Ensure that compression has been" +
+                    "performed before decompression.");
+        }
+
+        // We get all values from the compressed array and put them into the result array
+        for (int i = 0; i < array.length; i++) {
+            array[i] = get(i);
+        }
+    }
 
     /**
      * Returns the value of the i-th element in the compressed array.

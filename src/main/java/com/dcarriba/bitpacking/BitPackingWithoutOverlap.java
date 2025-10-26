@@ -1,9 +1,8 @@
 package com.dcarriba.bitpacking;
 
 /**
- * {@link BitPackingWithoutOverlap} is a {@link BitPacking} implementation where compressed values
- * do not overlap to the next integer, i.e. compressed values are never written on two consecutive
- * integers inside the compressed array.
+ * {@link BitPackingWithoutOverlap} is a {@link BitPacking} implementation where compressed values do not overlap to
+ * the next integer, i.e. compressed values are never written on two consecutive integers inside the compressed array.
  */
 public class BitPackingWithoutOverlap extends BitPacking {
 
@@ -19,13 +18,13 @@ public class BitPackingWithoutOverlap extends BitPacking {
         setBitSize(bitSize);
         setOriginalLength(array.length);
 
-        // Number of values that can fit in a single 32-bit integer
-        int valuesPerInt = 32 / bitSize;
-
-        // Number of integers needed for all compressed values
-        int compressedArrayLength = (array.length + valuesPerInt - 1) / valuesPerInt;
+        // Number of 32-bit integers needed for all compressed values
+        int compressedArrayLength = (array.length * bitSize + 31) / 32;
 
         int[] compressedArray = new int[compressedArrayLength];
+
+        // Number of values that can fit in a single 32-bit integer
+        int valuesPerInt = 32 / bitSize;
 
         for (int i = 0; i < array.length; i++) {
             int value = array[i];
@@ -41,21 +40,6 @@ public class BitPackingWithoutOverlap extends BitPacking {
         }
 
         setCompressedArray(compressedArray);
-    }
-
-    @Override
-    public void decompress(int[] array) {
-        if (array == null || array.length != getOriginalLength()) {
-            throw new IllegalArgumentException("Output array must have length " + getOriginalLength());
-        }
-
-        if (getCompressedArray() == null) {
-            throw new IllegalStateException("Compressed data is not available. Ensure that compression has been" +
-                                            "performed before decompression.");
-        }
-
-        // We get all values from the compressed array and put them into the result array
-        for (int i = 0; i < array.length; i++) array[i] = get(i);
     }
 
     @Override
