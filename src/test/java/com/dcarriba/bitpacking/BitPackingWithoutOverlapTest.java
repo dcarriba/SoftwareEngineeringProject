@@ -1,5 +1,7 @@
 package com.dcarriba.bitpacking;
 
+import com.dcarriba.bitpacking.factory.BitPackingFactory;
+import com.dcarriba.bitpacking.factory.CompressionVersion;
 import com.dcarriba.config.Config;
 import com.dcarriba.utilities.Utilities;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,7 @@ public class BitPackingWithoutOverlapTest {
 
     @Test
     void testCompressionDecompressionSmallValueArray() {
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         int[] inputArray = {1, 2, 3, 4, 5};
         int[] decompressedArray = new int[inputArray.length];
@@ -30,7 +32,7 @@ public class BitPackingWithoutOverlapTest {
 
     @Test
     void testCompressionDecompressionLargeValueArray() {
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         int[] inputArray = {100, 200, 300, 400, 500, 600, 700, 800, 900};
         int[] decompressedArray = new int[inputArray.length];
@@ -48,7 +50,7 @@ public class BitPackingWithoutOverlapTest {
 
     @Test
     void testCompressionDecompressionSingleValueArray() {
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         int[] inputArray = {15};
         int[] decompressedArray = new int[inputArray.length];
@@ -66,7 +68,7 @@ public class BitPackingWithoutOverlapTest {
 
     @Test
     void testCompressionDecompressionArrayWithZero() {
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         int[] inputArray = {0, 1, 2, 3};
         int[] decompressedArray = new int[inputArray.length];
@@ -84,7 +86,7 @@ public class BitPackingWithoutOverlapTest {
 
     @Test
     void testCompressionDecompressionEmptyArray() {
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         int[] emptyArray = {};
         assertThrows(IllegalArgumentException.class, () -> bitPacking.compress(emptyArray));
@@ -92,14 +94,14 @@ public class BitPackingWithoutOverlapTest {
 
     @Test
     void testCompressionDecompressionNullArray() {
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         assertThrows(IllegalArgumentException.class, () -> bitPacking.compress(null));
     }
 
     @Test
     void testCompressionDecompressionNegativeValueArray() {
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         int[] negativeArray = {-1, 2, 3};
         assertThrows(IllegalArgumentException.class, () -> bitPacking.compress(negativeArray));
@@ -107,7 +109,7 @@ public class BitPackingWithoutOverlapTest {
 
     @Test
     void testDecompressionWithoutCompression(){
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         int[] array = new int[0];
         assertThrows(IllegalStateException.class, () -> bitPacking.decompress(array));
@@ -115,7 +117,7 @@ public class BitPackingWithoutOverlapTest {
 
     @Test
     void testGetMethod() {
-        BitPacking bitPacking = new BitPackingWithoutOverlap();
+        BitPacking bitPacking = BitPackingFactory.createBitPacking(CompressionVersion.WITHOUT_OVERLAP);
 
         int[] inputArray = {100, 200, 300, 400, 500};
         bitPacking.compress(inputArray);
