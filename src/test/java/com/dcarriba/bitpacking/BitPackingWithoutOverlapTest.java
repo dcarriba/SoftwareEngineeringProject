@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link BitPackingWithoutOverlapTest} provides unit tests for {@link BitPackingWithoutOverlap}
+ * {@link BitPackingWithOverlapTest} provides unit tests for {@link BitPackingWithoutOverlap}
  */
 public class BitPackingWithoutOverlapTest {
 

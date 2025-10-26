@@ -19,7 +19,7 @@ public class BitPackingWithoutOverlap extends BitPacking {
         setBitSize(bitSize);
         setOriginalLength(array.length);
 
-        // Number of values that can fit in a single integer
+        // Number of values that can fit in a single 32-bit integer
         int valuesPerInt = 32 / bitSize;
 
         // Number of integers needed for all compressed values
@@ -34,11 +34,10 @@ public class BitPackingWithoutOverlap extends BitPacking {
             int intIndex = i / valuesPerInt;
 
             // Calculates the bit offset (i.e. the position) for the current value inside the integer
-            int offset = (i % valuesPerInt) * bitSize;
+            int bitOffset = (i % valuesPerInt) * bitSize;
 
-            // Adds the compressed value to the integer without affecting previously compressed and added
-            // values to this integer
-            compressedArray[intIndex] |= (value & ((1 << bitSize) - 1)) << (32 - (offset + bitSize));
+            // Adds the compressed value to the integer without affecting previously compressed values
+            compressedArray[intIndex] |= (value & ((1 << bitSize) - 1)) << (32 - (bitOffset + bitSize));
         }
 
         setCompressedArray(compressedArray);
@@ -55,17 +54,8 @@ public class BitPackingWithoutOverlap extends BitPacking {
                                             "performed before decompression.");
         }
 
-        int bitSize = getBitSize();
-        int valuesPerInt = 32 / bitSize;
-        int[] compressed = getCompressedArray();
-
-        // We get all values from the compressed array and put then into the result array given as parameter
-        for (int i = 0; i < array.length; i++) {
-            int intIndex = i / valuesPerInt;
-            int offset = (i % valuesPerInt) * bitSize;
-
-            array[i] = (compressed[intIndex] >>> (32 - (offset + bitSize))) & ((1 << bitSize) - 1);
-        }
+        // We get all values from the compressed array and put them into the result array
+        for (int i = 0; i < array.length; i++) array[i] = get(i);
     }
 
     @Override
@@ -76,9 +66,14 @@ public class BitPackingWithoutOverlap extends BitPacking {
 
         int bitSize = getBitSize();
         int valuesPerInt = 32 / bitSize;
-        int intIndex = i / valuesPerInt;
-        int offset = (i % valuesPerInt) * bitSize;
 
-        return (getCompressedArray()[intIndex] >>> (32 - (offset + bitSize))) & ((1 << bitSize) - 1);
+        // Calculates in which integer of the compressed array the i-th value is contained in
+        int intIndex = i / valuesPerInt;
+
+        // Calculates the bit offset at which the wanted value is
+        int bitOffset = (i % valuesPerInt) * bitSize;
+
+        // Returns the wanted value as a normal 32-bit integer
+        return (getCompressedArray()[intIndex] >>> (32 - (bitOffset + bitSize))) & ((1 << bitSize) - 1);
     }
 }
