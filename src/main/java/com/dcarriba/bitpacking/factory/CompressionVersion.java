@@ -7,5 +7,5 @@ import com.dcarriba.bitpacking.BitPacking;
  */
 public enum CompressionVersion {
     WITH_OVERLAP,
-    WITHOUT_OVERLAP;
+    WITHOUT_OVERLAP
 }
