@@ -1,4 +1,4 @@
-package com.dcarriba;
+package com.dcarriba.main;
 
 /**
  * {@link Main} class of the project

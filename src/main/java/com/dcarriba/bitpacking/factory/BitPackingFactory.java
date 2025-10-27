@@ -1,8 +1,8 @@
 package com.dcarriba.bitpacking.factory;
 
 import com.dcarriba.bitpacking.BitPacking;
-import com.dcarriba.bitpacking.BitPackingWithOverlap;
-import com.dcarriba.bitpacking.BitPackingWithoutOverlap;
+import com.dcarriba.bitpacking.versions.BitPackingWithOverlap;
+import com.dcarriba.bitpacking.versions.BitPackingWithoutOverlap;
 
 /**
  * {@link BitPackingFactory} is a factory to create a {@link BitPacking} object.

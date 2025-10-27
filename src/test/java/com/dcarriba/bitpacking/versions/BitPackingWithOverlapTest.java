@@ -1,5 +1,6 @@
-package com.dcarriba.bitpacking;
+package com.dcarriba.bitpacking.versions;
 
+import com.dcarriba.bitpacking.BitPacking;
 import com.dcarriba.bitpacking.factory.BitPackingFactory;
 import com.dcarriba.bitpacking.factory.CompressionVersion;
 
@@ -10,7 +11,7 @@ import com.dcarriba.bitpacking.factory.CompressionVersion;
 public class BitPackingWithOverlapTest extends BitPackingVersionsBaseTest {
 
     @Override
-    BitPacking createBitPacking() {
+    protected BitPacking createBitPacking() {
         return BitPackingFactory.createBitPacking(CompressionVersion.WITH_OVERLAP);
     }
 }

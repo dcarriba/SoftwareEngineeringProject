@@ -1,5 +1,6 @@
-package com.dcarriba.bitpacking;
+package com.dcarriba.bitpacking.versions;
 
+import com.dcarriba.bitpacking.BitPacking;
 import com.dcarriba.config.Config;
 import com.dcarriba.utilities.Utilities;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public abstract class BitPackingVersionsBaseTest {
 
-    abstract BitPacking createBitPacking();
+    protected abstract BitPacking createBitPacking();
 
     @Test
     void testCompressionDecompressionSmallValueArray() {

@@ -1,4 +1,6 @@
-package com.dcarriba.bitpacking;
+package com.dcarriba.bitpacking.versions;
+
+import com.dcarriba.bitpacking.BitPacking;
 
 /**
  * {@link BitPackingWithOverlap} is a {@link BitPacking} implementation where compressed values can overlap to
