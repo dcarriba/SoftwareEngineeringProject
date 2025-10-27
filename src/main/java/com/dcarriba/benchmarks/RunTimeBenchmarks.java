@@ -67,7 +67,7 @@ public class RunTimeBenchmarks {
      * @param withoutOverlapBenchmarks TimeBenchmarks object for the BitPackingWithoutOverlap version
      */
     private static void runCompressionTimeBenchmarks(int[] arraySizes, TimeBenchmarks withOverlapBenchmarks, TimeBenchmarks withoutOverlapBenchmarks) {
-        System.out.println("=== Average Compression Time (micro-seconds) ===");
+        System.out.println("=== Average Compression Time (in micro-seconds) (average over " + REPETITIONS_N + " repetitions) ===");
         System.out.printf("%-12s %-20s %-20s%n", "Array Size", "With Overlap", "Without Overlap");
 
         for (int size : arraySizes) {
@@ -99,7 +99,7 @@ public class RunTimeBenchmarks {
      * @param withoutOverlapBenchmarks TimeBenchmarks object for the BitPackingWithoutOverlap version
      */
     private static void runDecompressionTimeBenchmarks(int[] arraySizes, TimeBenchmarks withOverlapBenchmarks, TimeBenchmarks withoutOverlapBenchmarks) {
-        System.out.println("\n=== Average Decompression Time (in micro-seconds) ===");
+        System.out.println("\n=== Average Decompression Time (in micro-seconds) (average over " + REPETITIONS_N + " repetitions) ===");
         System.out.printf("%-12s %-20s %-20s%n", "Array Size", "With Overlap", "Without Overlap");
 
         for (int size : arraySizes) {
@@ -131,7 +131,7 @@ public class RunTimeBenchmarks {
      * @param withoutOverlapBenchmarks TimeBenchmarks object for the BitPackingWithoutOverlap version
      */
     private static void runGetTimeBenchmarks(int[] arraySizes, TimeBenchmarks withOverlapBenchmarks, TimeBenchmarks withoutOverlapBenchmarks) {
-        System.out.println("\n=== Average Get Time (in nano-seconds) ===");
+        System.out.println("\n=== Average Get Time (in nano-seconds) (average over " + REPETITIONS_N + " repetitions) ===");
         System.out.printf("%-12s %-20s %-20s%n", "Array Size", "With Overlap", "Without Overlap");
 
         for (int size : arraySizes) {
