@@ -20,13 +20,13 @@ public class BitPackingWithoutOverlap extends BitPacking {
         setBitSize(bitSize);
         setOriginalLength(array.length);
 
-        // Number of 32-bit integers needed for all compressed values
-        int compressedArrayLength = (array.length * bitSize + 31) / 32;
-
-        int[] compressedArray = new int[compressedArrayLength];
-
         // Number of values that can fit in a single 32-bit integer
         int valuesPerInt = 32 / bitSize;
+
+        // Number of 32-bit integers needed for all compressed values
+        int compressedArrayLength = (array.length + valuesPerInt - 1) / valuesPerInt;
+
+        int[] compressedArray = new int[compressedArrayLength];
 
         for (int i = 0; i < array.length; i++) {
             int value = array[i];
