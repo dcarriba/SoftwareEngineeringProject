@@ -1,6 +1,7 @@
 package com.dcarriba.bitpacking.factory;
 
 import com.dcarriba.bitpacking.BitPacking;
+import com.dcarriba.bitpacking.versions.BitPackingWithOverflowArea;
 import com.dcarriba.bitpacking.versions.BitPackingWithOverlap;
 import com.dcarriba.bitpacking.versions.BitPackingWithoutOverlap;
 
@@ -26,6 +27,9 @@ public class BitPackingFactory {
             }
             case WITHOUT_OVERLAP -> {
                 return new BitPackingWithoutOverlap();
+            }
+            case WITH_OVERFLOW_AREA -> {
+                return new BitPackingWithOverflowArea();
             }
             default -> throw new IllegalArgumentException("compressionVersion is not correct");
         }

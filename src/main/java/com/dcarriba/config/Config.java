@@ -6,6 +6,6 @@ package com.dcarriba.config;
 public class Config {
 
     /** To display extra prints for the Unit Test classes */
-    public static final boolean UNIT_TEST_PRINT_DEBUG = false;
+    public static final boolean UNIT_TEST_PRINT_DEBUG = true;
 
 }

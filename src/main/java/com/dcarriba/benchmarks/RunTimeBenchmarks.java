@@ -44,16 +44,19 @@ public class RunTimeBenchmarks {
     private static void warmUpBenchmark(int[] arraySizes, TimeBenchmarks withOverlapBenchmarks, TimeBenchmarks withoutOverlapBenchmarks) {
         System.out.println("Warming up the JVM for better results...");
 
+
         for (int size : arraySizes) {
             int[] array = new int[size];
-            Utilities.initializeArray(array);
+            for (int i = 0; i < REPETITIONS_N; i++) {
+                Utilities.initializeArrayWithRandomPositiveValues(array);
 
-            withOverlapBenchmarks.compressionTime(array);
-            withoutOverlapBenchmarks.compressionTime(array);
-            withOverlapBenchmarks.decompressionTime(array);
-            withoutOverlapBenchmarks.decompressionTime(array);
-            withOverlapBenchmarks.getTime(array);
-            withoutOverlapBenchmarks.getTime(array);
+                withOverlapBenchmarks.compressionTime(array);
+                withoutOverlapBenchmarks.compressionTime(array);
+                withOverlapBenchmarks.decompressionTime(array);
+                withoutOverlapBenchmarks.decompressionTime(array);
+                withOverlapBenchmarks.getTime(array);
+                withoutOverlapBenchmarks.getTime(array);
+            }
         }
 
         System.out.println("Warm-up completed.\n");
@@ -72,13 +75,13 @@ public class RunTimeBenchmarks {
 
         for (int size : arraySizes) {
             int[] array = new int[size];
-            Utilities.initializeArray(array);
 
             long totalCompressWithOverlap = 0;
             long totalCompressWithoutOverlap = 0;
 
             // Runs the benchmarks multiple times for better accuracy
             for (int i = 0; i < REPETITIONS_N; i++) {
+                Utilities.initializeArrayWithRandomPositiveValues(array);
                 totalCompressWithOverlap += withOverlapBenchmarks.compressionTime(array);
                 totalCompressWithoutOverlap += withoutOverlapBenchmarks.compressionTime(array);
             }
@@ -104,13 +107,13 @@ public class RunTimeBenchmarks {
 
         for (int size : arraySizes) {
             int[] array = new int[size];
-            Utilities.initializeArray(array);
 
             long totalDecompressWithOverlap = 0;
             long totalDecompressWithoutOverlap = 0;
 
             // Runs the benchmarks multiple times for better accuracy
             for (int i = 0; i < REPETITIONS_N; i++) {
+                Utilities.initializeArrayWithRandomPositiveValues(array);
                 totalDecompressWithOverlap += withOverlapBenchmarks.decompressionTime(array);
                 totalDecompressWithoutOverlap += withoutOverlapBenchmarks.decompressionTime(array);
             }
@@ -136,13 +139,13 @@ public class RunTimeBenchmarks {
 
         for (int size : arraySizes) {
             int[] array = new int[size];
-            Utilities.initializeArray(array);
 
             long totalGetWithOverlap = 0;
             long totalGetWithoutOverlap = 0;
 
             // Runs the benchmarks multiple times for better accuracy
             for (int i = 0; i < REPETITIONS_N; i++) {
+                Utilities.initializeArrayWithRandomPositiveValues(array);
                 totalGetWithOverlap += withOverlapBenchmarks.getTime(array);
                 totalGetWithoutOverlap += withoutOverlapBenchmarks.getTime(array);
             }

@@ -38,25 +38,9 @@ public class Utilities {
      *
      * @param array array to initialize
      */
-    public static void initializeArray(int[] array) {
+    public static void initializeArrayWithRandomPositiveValues(int[] array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = (int) (Math.random() * Integer.MAX_VALUE);
-        }
-    }
-
-    /**
-     * Utility function to initialize an array with random integers between minValue and maxValue.
-     *
-     * @param array array to initialize
-     * @param minValue the minimum value of the random integers (inclusive)
-     * @param maxValue the maximum value of the random integers (inclusive)
-     */
-    public static void initializeArray(int[] array, int minValue, int maxValue) {
-        if (minValue > maxValue) {
-            throw new IllegalArgumentException("minValue must be less than or equal to maxValue.");
-        }
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (int) (Math.random() * (maxValue - minValue + 1)) + minValue;
         }
     }
 }
