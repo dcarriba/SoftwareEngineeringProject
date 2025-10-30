@@ -2,6 +2,8 @@ package com.dcarriba.utilities;
 
 import com.dcarriba.bitpacking.BitPacking;
 
+import java.util.Random;
+
 /**
  * The {@link Utilities} class contains many useful utility functions
  */
@@ -39,8 +41,20 @@ public class Utilities {
      * @param array array to initialize
      */
     public static void initializeArrayWithRandomPositiveValues(int[] array) {
+        initializeArrayWithRandomPositiveValues(array, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Utility function to initialize an array with random integers between 0 and maxValue.
+     *
+     * @param array array to initialize
+     * @param maxValue maximum value of the random generated integers
+     */
+    public static void initializeArrayWithRandomPositiveValues(int[] array, int maxValue) {
+        Random random = new Random();
+
         for (int i = 0; i < array.length; i++) {
-            array[i] = (int) (Math.random() * Integer.MAX_VALUE);
+            array[i] = random.nextInt(maxValue);
         }
     }
 }
