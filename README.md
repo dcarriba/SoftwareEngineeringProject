@@ -8,8 +8,8 @@ Daniel Carriba Nosrati
 
 ## Requirements
 
-- Java 21 (recommended) <br>
-The project should also be compatible with Java 17 or later, but it has been tested with Java 21.
+- Java is required <br>
+Java version 21 is highly recommended, as the project was build and tested with Java 21
 
 - Gradle Wrapper is included, no separate Gradle installation is required.
 

@@ -34,6 +34,6 @@ public class CompressionRatioBenchmarks {
 
         bitPacking.compress(array);
 
-        return (double) bitPacking.getCompressedArray().length /array.length;
+        return (double) bitPacking.getCompressedArray().length / array.length;
     }
 }
