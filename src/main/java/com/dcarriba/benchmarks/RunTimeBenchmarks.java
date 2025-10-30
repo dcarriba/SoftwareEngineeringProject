@@ -164,7 +164,7 @@ public class RunTimeBenchmarks {
             // Computes average time (and keeps the result in ns)
             double avgGetWithOverlap = totalGetWithOverlap / (double) Config.RUN_BENCHMARKS_REPETITIONS;
             double avgGetWithoutOverlap = totalGetWithoutOverlap / (double) Config.RUN_BENCHMARKS_REPETITIONS;
-            double avgGetWithOverflowArea = totalGetWithOverflowArea / (double) Config.RUN_BENCHMARKS_REPETITIONS / 1000;
+            double avgGetWithOverflowArea = totalGetWithOverflowArea / (double) Config.RUN_BENCHMARKS_REPETITIONS;
 
             System.out.printf("%-12d %-18.2f %-18.2f %-18.2f%n", size, avgGetWithOverlap, avgGetWithoutOverlap, avgGetWithOverflowArea);
         }
