@@ -3,9 +3,7 @@ package com.dcarriba.bitpacking.versions;
 import com.dcarriba.bitpacking.BitPacking;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * {@link BitPackingWithOverflowArea} is a {@link BitPacking} compression with overflow areas.
@@ -45,9 +43,7 @@ public class BitPackingWithOverflowArea extends BitPacking {
 
         overflowAreaValueBitSize = calculateBitSize(new int[]{maxValue});
 
-        // A set to have a faster .contains() method
-        Set<Integer> regularValues = new HashSet<>();
-        // A list is needed to create the overflow area with values in order
+        List<Integer> regularValues = new ArrayList<>();
         List<Integer> overflowAreaValues = new ArrayList<>();
 
         int maxRegularValueBitSize = 0;
@@ -63,19 +59,22 @@ public class BitPackingWithOverflowArea extends BitPacking {
 
         regularValueBitSize = maxRegularValueBitSize;
 
-        overflowValueIndexBitSize = calculateBitSize(new int[]{overflowAreaValues.size()-1});
+        overflowValueIndexBitSize = calculateBitSize(new int[]{overflowAreaValues.size() - 1});
 
-        // Total bits needed for all regular values, overflow references, and overflow values
-        int totalBits = regularValues.size() * (regularValueBitSize + 1) +
-                overflowAreaValues.size() * (1 + overflowValueIndexBitSize) +
-                overflowAreaValues.size() * overflowAreaValueBitSize;
+        int totalBits = array.length                                        // 1 leading bit per value
+                + (regularValues.size() * regularValueBitSize)              // bits for the regular values
+                + (overflowAreaValues.size() * overflowValueIndexBitSize)   // bits for the overflow indices
+                + (overflowAreaValues.size() * overflowAreaValueBitSize);   // bits for the overflow area
 
         // Round up to fit the total bits inside 32-bit integers
-        int compressedArrayLength = (totalBits + 31) / 32;
+        int compressedArrayLength = ((totalBits + 31) / 32);
 
         int[] compressedArray = new int[compressedArrayLength];
 
+        // Current position in the compressed array (in bits)
         int currentBit = 0;
+
+        // Used to create the overflow references later (in form 1-overflowIndex)
         int overflowIndex = 0;
 
         // Pass 1: compresses the regular values and overflow references
@@ -88,7 +87,8 @@ public class BitPackingWithOverflowArea extends BitPacking {
             // Calculates the bit offset (i.e. the position) for the current value inside the integer
             int bitOffset = currentBit % 32;
 
-            if (regularValues.contains(value)) { // Process regular values
+            // Process regular values
+            if (regularValues.contains(value)) {
                 remainingBits = regularValueBitSize;
 
                 // Update current bit by +1 to leave place for the leading 0
@@ -114,7 +114,8 @@ public class BitPackingWithOverflowArea extends BitPacking {
                 }
             }
 
-            else if (overflowAreaValues.contains(value)) { // Process overflow reference
+            // Process overflow reference
+            else if (overflowAreaValues.contains(value)) {
                 remainingBits = overflowValueIndexBitSize;
 
                 // Inserts the leading 1 for overflow reference
@@ -146,7 +147,7 @@ public class BitPackingWithOverflowArea extends BitPacking {
         }
 
         // Pass 2: adds the overflow area at the end of the compressed array by compressing the overflow values
-        for (int overflowValue : overflowAreaValues) {
+        for (int value : overflowAreaValues) {
             int remainingBits = overflowAreaValueBitSize;
 
             int intIndex = currentBit / 32;
@@ -155,7 +156,7 @@ public class BitPackingWithOverflowArea extends BitPacking {
             // Compresses and adds the overflow value to the compressed array
             while (remainingBits > 0) {
                 int bitsToWrite = Math.min(remainingBits, 32 - bitOffset);
-                int valueToWrite = (overflowValue >> (remainingBits - bitsToWrite)) & ((1 << bitsToWrite) - 1);
+                int valueToWrite = (value >> (remainingBits - bitsToWrite)) & ((1 << bitsToWrite) - 1);
                 compressedArray[intIndex] |= valueToWrite << (32 - (bitOffset + bitsToWrite));
 
                 remainingBits -= bitsToWrite;
@@ -166,13 +167,126 @@ public class BitPackingWithOverflowArea extends BitPacking {
                     bitOffset = 0;
                 }
             }
+
         }
 
         setCompressedArray(compressedArray);
     }
 
     @Override
+    public void decompress(int[] array) {
+        if (array == null || array.length != getOriginalLength()) {
+            throw new IllegalArgumentException("The array must be of the correct size to hold the decompressed data.");
+        }
+
+        int[] compressedArray = getCompressedArray();
+
+        if (compressedArray == null) {
+            throw new IllegalStateException("Compressed data is not available. Ensure that compression has been" +
+                    "performed before decompression.");
+        }
+
+        // List to contain the indexes where an overflow value is located
+        List<Integer> indexesForOverflowValues = new ArrayList<>();
+
+        int currentBit = 0;
+
+        // Pass 1: decompresses the regular values and saves the indexes for the overflow values
+        for (int i = 0; i < array.length; i++) {
+
+            // Determines in which integer (of the compressed array) and at what position, inside of that integer,
+            // the wanted value is stored in
+            int intIndex = currentBit / 32;
+            int bitOffset = currentBit % 32;
+
+            // Get the leading bit (0 or 1)
+            int leadingBit = (compressedArray[intIndex] >>> (32 - (bitOffset + 1))) & 1;
+
+            // Update current bit by +1 after getting the leading bit
+            currentBit += 1;
+
+            // Update intIndex and bitOffset since currentBit just changed
+            intIndex = currentBit / 32;
+            bitOffset = currentBit % 32;
+
+            // If it is a regular value
+            if (leadingBit == 0) {
+                int remainingBits = regularValueBitSize;
+                int value = 0;
+
+                // Decompresses the regular value
+                while (remainingBits > 0) {
+                    int bitsToRead = Math.min(remainingBits, 32 - bitOffset);
+
+                    int valueToRead = (compressedArray[intIndex] >>> (32 - bitOffset - bitsToRead))
+                            & ((1 << bitsToRead) - 1);
+                    value |= valueToRead << (remainingBits - bitsToRead);
+
+                    remainingBits -= bitsToRead;
+                    currentBit += bitsToRead;
+
+                    if (remainingBits >= 0) {
+                        intIndex++;
+                        bitOffset = 0;
+                    }
+                }
+
+                array[i] = value;
+            }
+
+            // Else it is an overflow reference
+            else {
+                int remainingBits = overflowValueIndexBitSize;
+
+                // Updates the currentBit variable, needed to continue the decompression
+                while (remainingBits > 0) {
+                    int bitsToRead = Math.min(remainingBits, 32 - bitOffset);
+                    remainingBits -= bitsToRead;
+                    currentBit += bitsToRead;
+                    if (remainingBits >= 0) bitOffset = 0;
+                }
+
+                // We save the index at which an overflow value is located
+                indexesForOverflowValues.add(i);
+            }
+        }
+
+        // Pass 2: Decompress the overflow values inside the overflow area, and places them in the correct index
+        // (which is given by overflowValueIndex)
+        for (int overflowValueIndex : indexesForOverflowValues) {
+            int remainingBits = overflowAreaValueBitSize;
+            int overflowValue = 0;
+
+            int intIndex = currentBit / 32;
+            int bitOffset = currentBit % 32;
+
+            // Decompresses the overflow value
+            while (remainingBits > 0) {
+                int bitsToRead = Math.min(remainingBits, 32 - bitOffset);
+
+                int valueToRead = (compressedArray[intIndex] >>> (32 - bitOffset - bitsToRead))
+                        & ((1 << bitsToRead) - 1);
+                overflowValue |= valueToRead << (remainingBits - bitsToRead);
+
+                remainingBits -= bitsToRead;
+                currentBit += bitsToRead;
+
+                if (remainingBits >= 0) {
+                    intIndex++;
+                    bitOffset = 0;
+                }
+            }
+
+            // Places the overflow value at the right index of the array
+            array[overflowValueIndex] = overflowValue;
+        }
+    }
+
+    @Override
     public int get(int i){
-        return 0;
+        int[] decompressedArray = new int[getOriginalLength()];
+        decompress(decompressedArray);
+
+        return decompressedArray[i];
     }
 }

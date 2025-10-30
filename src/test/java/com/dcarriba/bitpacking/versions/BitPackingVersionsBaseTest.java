@@ -18,7 +18,7 @@ public abstract class BitPackingVersionsBaseTest {
     void testCompressionDecompressionSmallValueArray() {
         BitPacking bitPacking = createBitPacking();
 
-        int[] inputArray = {1, 2, 3, 4, 5};
+        int[] inputArray = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         int[] decompressedArray = new int[inputArray.length];
 
         bitPacking.compress(inputArray);
@@ -36,7 +36,7 @@ public abstract class BitPackingVersionsBaseTest {
     void testCompressionDecompressionLargeValueArray() {
         BitPacking bitPacking = createBitPacking();
 
-        int[] inputArray = {100, 200, 300, 400, 500, 600, 700, 800, 900};
+        int[] inputArray = {100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000};
         int[] decompressedArray = new int[inputArray.length];
 
         bitPacking.compress(inputArray);

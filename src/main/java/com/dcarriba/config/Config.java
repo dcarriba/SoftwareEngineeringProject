@@ -9,6 +9,6 @@ public class Config {
     public static final boolean UNIT_TEST_PRINT_DEBUG = true;
 
     /** Number of repetitions benchmarks are run, for more accurate measurements */
-    public static final int RUN_BENCHMARKS_REPETITIONS = 50;
+    public static final int RUN_BENCHMARKS_REPETITIONS = 10;
 
 }
