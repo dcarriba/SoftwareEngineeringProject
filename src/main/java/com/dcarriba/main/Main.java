@@ -2,6 +2,7 @@ package com.dcarriba.main;
 
 import com.dcarriba.benchmarks.RunCompressionRatioBenchmarks;
 import com.dcarriba.benchmarks.RunTimeBenchmarks;
+import com.dcarriba.benchmarks.RunCalculateTransmissionTimeAndIfWorth;
 
 /**
  * {@link Main} class of the project
@@ -25,5 +26,7 @@ public class Main {
         RunCompressionRatioBenchmarks.run();
         System.out.println("\n______________________________\n");
         RunTimeBenchmarks.run();
+        System.out.println("\n______________________________\n");
+        RunCalculateTransmissionTimeAndIfWorth.run();
     }
 }
