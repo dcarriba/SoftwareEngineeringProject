@@ -2,6 +2,8 @@
 
 Project for the Software Engineering course at Université Côte d'Azur.
 
+More information about the project, its goal and how it works, can be found in `report/Rapport.pdf`.
+
 ## Author
 
 Daniel Carriba Nosrati
@@ -29,11 +31,15 @@ cd SoftwareEngineeringProject
 
 ### Build the project
 
+To build the project, use the following command:
+
 ```bash
 ./gradlew build
-```
+``` 
 
 ### Run the project
+
+To run the benchmarks (Time Benchmarks and Compression Ratio Benchmarks), as well as to calculate the transmission time for a latency t at which compression becomes worthwhile, for all implemented compression versions, use the following command:
 
 ```bash
 ./gradlew run
@@ -41,10 +47,8 @@ cd SoftwareEngineeringProject
 
 ### Run unit tests
 
+To run the unit tests for all implemented compression versions, use the following command:
+
 ```bash
 ./gradlew test
 ```
-
-## Project Report
-
-More information (in French) about the project can be found in `report/Rapport.pdf`.
