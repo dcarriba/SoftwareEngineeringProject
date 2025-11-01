@@ -29,6 +29,12 @@ Navigate into the project directory:
 cd SoftwareEngineeringProject
 ```
 
+### Important notice
+
+Make sure the `gradlew` file has the rights to be executed on your machine.
+
+If you are on Windows using CMD or PowerShell, you may use `gradlew.bat` instead of `./gradlew` for all following commands.
+
 ### Build the project
 
 To build the project, use the following command:
