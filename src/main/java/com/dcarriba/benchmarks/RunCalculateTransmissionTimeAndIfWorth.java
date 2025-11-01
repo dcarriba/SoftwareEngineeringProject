@@ -74,7 +74,7 @@ public class RunCalculateTransmissionTimeAndIfWorth {
                 "Notice:\n" +
                 "- \"T_without\" is the Transmission Time (in seconds) of the array without compression\n" +
                 "- for each compression version \"T_time\" is the Transmission Time (in seconds) of the array, compressed using that compression version\n" +
-                "- for each compression version \"is worth?\" indicates if the compression was worth, i.e. uif it improved the Transmission Time\n" +
+                "- for each compression version \"is worth?\" indicates if the compression was worth, i.e. if it improved the Transmission Time\n" +
                 "- in the calculations the average transmission rate of 10 Mbps is used");
     }
 }
