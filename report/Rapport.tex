@@ -275,7 +275,7 @@ Si "BUILD SUCCESSFUL" s'affiche, alors tout les tests unitaires on été exécut
     \centering
     \includegraphics[width=1\textwidth]{img/unitTestsTerminal.png}
     \caption{Tests unitaires exécutés avec succès}
-    \label{fig:unitTestsResults}
+    \label{fig:unitTestsTerminal}
 \end{figure}
 \begin{figure}[h!]
     \centering
@@ -335,6 +335,7 @@ Nous choisissons de prendre la moyenne sur un nombre N (ici 10, mais modifiable 
 
 \subsection{Exemple de résultats des benchmarks}
 
+{\lstset{basicstyle=\scriptsize\ttfamily}
 \begin{lstlisting} 
 $ ./gradlew run                
 
@@ -395,7 +396,8 @@ Array Size   With Overlap       Without Overlap    With Overflow Area
 
 BUILD SUCCESSFUL in 8s
 2 actionable tasks: 1 executed, 1 up-to-date
-\end{lstlisting} 
+\end{lstlisting}
+}
 
 \subsection{Interprétation des benchmarks obtenus}
 
@@ -425,11 +427,111 @@ Grâce au différents benchmarks obtenus, on peut conclure que la meilleur versi
 
 \section{Temps de transmission pour une latence t où la compression devient utile}
 
+Pour déterminer si, et quand, la compression de tableaux d'entiers positifs est utile pour répondre au problème initiale, soit la transmission de ces tableau à travers internet, ce projet calcule le temps de transmission pour une latence t où la compression devient utile, pour chaque version de la compression "Bit Packing" qui a été implémenté.
 
+\subsection{Protocole pour le calcul}
+
+Le calcul est effectué par la classe \textsl{CalculateTransmissionTimeAndIfWorth}, qui calcule :
+\begin{itemize}
+\item le temps de transmission du tableau sans compression
+\item pour chaque version de compression : le temps de transmission du tableau compressé (à l'aide du temps de compression et de décompression, calculé par les benchmarks de temps)
+\item si la compression est utile, i.e. si le temps de transmission du tableau compressé (qui inclus le temps de compression et de decompression) est inférieur au temps de transmission du tableau non compressé
+\end{itemize}
+Pour les calculs de transmission, on a choisi d'assumer pour le taux de transmission la moyenne, qui est de 10 Mbps.
+
+\subsection{Calcul sur des entrées variables}
+
+La classe \textsl{RunCalculateTransmissionTimeAndIfWorth} utilise donc la classe présentés précédemment pour effectuer les calculs sur des tableaux en entrées avec des tailles différentes, et avec des éléments de valeurs maximales possibles différentes également, pour des résultats sur des entrées un maximum variées.
+
+\subsection{Exemple de résultats}
+
+{\lstset{basicstyle=\scriptsize\ttfamily}
+\begin{lstlisting}
+$ ./gradlew run
+
+> Task :run
+__________________________________
+| *** BIT PACKING BENCHMARKS *** |
+__________________________________
+
+***     Transmission Time calculation      ***
+*** and if the compression is worth or not ***
+
+=== Using an array with size 1000 ===
+Max Possible Value   T_without    With Overlap          Without Overlap       With Overflow Area   
+                                  T_time     is worth?  T_time     is worth?  T_time     is worth? 
+1                    0,003200     0,000376   true       0,000252   true       0,001955   true      
+10                   0,003200     0,000502   true       0,000465   true       0,002286   true      
+100                  0,003200     0,000816   true       0,000855   true       0,001437   true      
+256                  0,003200     0,000892   true       0,000853   true       0,001746   true      
+1000                 0,003200     0,001105   true       0,001121   true       0,001899   true      
+5000                 0,003200     0,001358   true       0,001656   true       0,001855   true      
+10000                0,003200     0,001433   true       0,001656   true       0,001937   true      
+2097151              0,003200     0,002136   true       0,003257   false      0,003048   true      
+16777215             0,003200     0,002431   true       0,003255   false      0,003387   false     
+1073741823           0,003200     0,003051   true       0,003257   false      0,003949   false     
+2147483647           0,003200     0,003136   true       0,003256   false      0,004070   false     
+
+=== Using an array with size 15000 ===
+Max Possible Value   T_without    With Overlap          Without Overlap       With Overflow Area   
+                                  T_time     is worth?  T_time     is worth?  T_time     is worth? 
+1                    0,048000     0,001890   true       0,001892   true       0,025311   true      
+10                   0,048000     0,006191   true       0,006166   true       0,028015   true      
+100                  0,048000     0,010658   true       0,012223   true       0,044309   true      
+256                  0,048000     0,012107   true       0,012074   true       0,051079   false     
+1000                 0,048000     0,015129   true       0,016064   true       0,065315   false     
+5000                 0,048000     0,019623   true       0,024045   true       0,061644   false     
+10000                0,048000     0,021127   true       0,024045   true       0,072288   false     
+2097151              0,048000     0,031640   true       0,048048   false      0,117700   false     
+16777215             0,048000     0,036134   true       0,048046   false      0,122586   false     
+1073741823           0,048000     0,045163   true       0,048051   false      0,131956   false     
+2147483647           0,048000     0,046672   true       0,048055   false      0,134984   false     
+
+Notice:
+- "T_without" is the Transmission Time (in seconds) of the array without compression
+- for each compression version "T_time" is the Transmission Time (in seconds) of the array,
+compressed using that compression version
+- for each compression version "is worth?" indicates if the compression was worth,
+i.e. if it improved the Transmission Time
+- in the calculations the average transmission rate of 10 Mbps is used
+
+BUILD SUCCESSFUL in 3s
+2 actionable tasks: 2 executed
+\end{lstlisting}
+}
+
+\subsection{Interprétation des résultats obtenus}
+
+Les résultats obtenus ci-dessus montrent pour les tableaux des taille 1000 et 15000, pour chaque valeur maximale possible, le temps de transmission du tableau non compressé (représenté par la colonne "T without"), ainsi que pour chaque version de compression "Bit Packing" le temps de transmission du tableau compressé (représenté par la colonne "T time"). Si "T time" est inférieur à "T without", alors la compression s'est avéré utile et bénéfique pour améliorer le temps de transmission. Ceci est représenté par la colonne "is worth?".
+\par Ainsi on remarque donc que la version de compression "With Overlap" améliore toujours le temps de transmission du tableau.
+\par La version de compression "Without Overlap" améliore le temps de transmission du tableau seulement si la valeur maximal possible dans le tableau ne dépasse un certain seuil (entre 10000 et 2097151 d'après nos résultats).
+\par La version de compression "With Overflow Area" améliore le temps de transmission seulement si la valeur maximal possible du tableau est en dessous d'un seuil. Ce seuil dépend, comme on peut le remarquer, de la taille du tableau en entier. Si la taille du tableau est de 1000 alors la version de compression "With Overflow Area" est utile seulement si la valeur maximale possible est inférieur 2097151, alors que si la taille du tableau est de 15000, "With Overflow Area" est seulement utile si la valeur maximale possible est de 100.
+\par Les versions "With Overlap" et "Without Overlap" ne dépendent pas de la taille du tableau, mais seulement de la valeur maximale possible au sein du tableau, au contraire de la version de compression "With Overflow Area".
+
+\subsection{Conclusion sur les temps de transmissions}
+
+Grâce à nos résultats obtenus, on peut donc conclure que la version "With Overlap", de la méthode de compression de "Bit Packing", améliore toujours le temps de transmission d'un tableau d'entiers positifs par internet, comparé au temps de transmission de ce tableau sans le compressé. Au contraire, les versions "Without Overlap" et "With Overflow Area" n'améliorent pas toujours ce temps de compression. Ainsi compresser le tableau avec la version "With Overlap" de "Bit Packing" s'avère utile et bénéfique pour améliorer le temps de transmission de tableau d'entiers positifs par internet.
 
 \clearpage
 
 
+\section{Tableaux avec des nombres négatifs}
+
+Considérons que les tableaux à transmettre peuvent contenir des nombres négatifs. Nous expliquerons le problème que ceci pourrait causer avec la méthode de compression "Bit Packing" implémenté par ce projet. Nous proposerons également une solution possible, pour résoudre ce problème.
+
+\subsection{Problème}
+
+Comparé à des nombres positifs, le codage binaire de nombres négatifs est différent. En effet, il s'effectue grâce au complément à deux. Ainsi les nombres négatifs on pour caractéristique que le bit de poids fort est un "1", et que l'ensemble du codage binaire est en complément à deux.
+\par La méthode de compression "Bit Packing" compresse les nombres en supprimants tout les bits "0" inutiles au codage binaire du nombre à compressé. Comme les nombres négatifs sont codés en complément à deux, les "0" inutiles deviennent des "1", et ainsi il est impossible de compresser ces nombres négatifs avec l'implémentation actuelle de "Bit Packing".
+
+\subsection{Solution possible}
+
+Une solution possible pour remédier au problème décrit ci-dessus, serait d'utiliser le méthode d'encodage appelé "Zigzag encoding".
+\par La méthode d'encodage "Zigzag encoding" est un encodage qui convertit en nombre positif les nombres négatifs. Il fait ceci en attribuant une nouvelle valeur positif pour chaque nombre, en alternant nombre positif et négatif.
+\par Ainsi on aura par exemple : 0 devient 0, -1 devient 1, 1 devient 2, -2 devient 3, 2 devient 4, -3 devient 5, 3 devient 6, etc.
+\par La méthode "Zigzag" peut donc facilement convertir les nombres négatifs en positifs, et peut également simplement reconstruire la valeur initiale, grâce à des formules mathématiques. Intégrer une méthode pour convertir tout les nombres en encodage "Zigzag" avant d'effectuer la compression avec notre méthode de "Bit Packing" serait donc une solution efficace pour résoudre le problème évoqué ci-dessus, et la méthode de compression "Bit Packing" pourrait donc fonctionner sur tout les nombres et non les nombres positifs seulement. 
+
+\clearpage
 
 
 \section{Conclusion}
