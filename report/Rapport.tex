@@ -325,7 +325,9 @@ La mesure du taux de compression s'effectue en compressant un tableau, et en cal
 \begin{lstlisting}[language=Java] 
 bitPacking.getCompressedArray().length / array.length
 \end{lstlisting} 
-où "bitPacking" est un objet de type \textsl{BitPacking} qui contient le tableau compressé de "array"
+où "bitPacking" est un objet de type \textsl{BitPacking} qui contient le tableau compressé de "array".
+\par Par exemple, si le taux de compression est de 0,5 alors cela signifie que le tableau compressé fait 50\% de la taille du tableau initial.
+\par Ainsi, un taux de compression bas est considéré étant meilleur.
 \par La classe \textsl{CompressionRatioBenchmarks} implémente la méthodes qui effectue ce calcul de taux de compression
 
 \subsubsection{Calcul du taux moyen sur des entrées variables}
@@ -536,6 +538,12 @@ Une solution possible pour remédier au problème décrit ci-dessus, serait d'ut
 
 \section{Conclusion}
 
+La transmission de tableaux d’entiers est un problème majeur de l’internet. Ce projet essaie donc de répondre a ce problème en implémentant une méthode de compression de tableaux d'entiers positifs, appelée "Bit Packing", qui est une méthode de compression basés sur le nombre de bits utilisés.
+\par On a pu voir les 3 différentes versions, appelés "With Overlap", "Without Overlap" et "With Overflow Area", de cette méthode de compression, qui ont été implémentés par ce projet, ainsi que des benchmarks, sur le temps et sur le taux de compression. Ceci nous a donc permis de comparer ces 3 versions.
+\par Grâce au benchmark de temps, qui mesurent le temps écoulé pour la compression, la décompression ainsi que pour l'accès au i-ème élément du tableau compressé, pour chacune des 3 versions, on a pu conclure que la version ayant les meilleurs benchmarks de temps était la version "Without Overlap" suivi de la version "With Overlap".
+\par Grâce au benchmarks de taux de compression, on a pu conclure que la version "With Overlap" donne toujours le meilleurs taux de compression, suivi de la version "Without Overlap".
+\par Finalement, grâce au calcul du temps de transmission pour une latence t où la compression devient utile, on a pu conclure que la version "With Overlap" est la seul version de la méthode "Bit Packing" qui améliore toujours le temps de transmission pour un tableau, comparé au temps de transmission d'un même tableau sans aucune compression.
+\par Pour conclure, les benchmarks et calculs que notre projet fournis vis-à-vis des versions implémentés de la méthode de compression "Bit Packing", nous indiquent donc que la version "With Overlap", c'est à dire la version où une valeur, du tableau à compresser, peut être compressé sur deux entiers consécutifs au sein du tableau compressé, est la meilleur version de la méthode de compression "Bit Packing".
 
 \clearpage
 
